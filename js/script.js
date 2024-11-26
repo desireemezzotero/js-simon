@@ -3,11 +3,12 @@ const timerSecond    = document.querySelector('.timer');
 const numberRandom   = document.querySelector('.number');
 const memorizeNumber = document.querySelector('.memorize');
 const insertNumber   = document.querySelector('.insert');
-const inputNumber    = document.querySelector('input');
+const inputNumber    = document.querySelectorAll('input');
 const btnControl     = document.querySelector('.btn')
+const comment        = document.querySelector('.comment')
 
 /* timing function per lo scalare dei secondi */
-let counter = 1;
+let counter = 10;
 const clock = setInterval(function(){
   counter --;
   timerSecond.innerHTML = counter;
@@ -22,7 +23,6 @@ const clock = setInterval(function(){
 
 },1000);
 
-
 /* genera numeri random e salvali in un array */
 const arrayNumberRandom = [];
 for ( let i = 0; i < 5; i++) {
@@ -35,14 +35,36 @@ console.log(arrayNumberRandom)
 btnControl.addEventListener('click', controll)
 
 /* funzione che controlla se i numeri sono giusti o meno */
+/* inputNumber è un nodeList, per questo non posso utilizzare .value. Per risolvere questo problema creo un un ciclo for dove ogni elemento della nodeList viene pushato in un nuovo array */
+let arrayNumberInsert = []
+let message;
+let arrayNumberCorrect = []
+let arrayNumberWrong = []
+
 function controll(){
-  for (let i = 0; i < inputNumber.lenght; i++) {
-    if (inputNumber[i].insert(arrayNumberRandom.lenght)) {
-      message = 'correct'; 
-      console.log(message)
+  for (let i = 0; i < inputNumber.length; i++) {
+    arrayNumberInsert.push(inputNumber[i].value);
+  }
+  
+  for (let i = 0; i < arrayNumberInsert.length; i++) {
+    if (arrayNumberRandom.includes(parseInt(arrayNumberInsert[i]))){
+      arrayNumberCorrect.push(arrayNumberInsert[i]);
+      message = `i numeri corretti sono ${arrayNumberCorrect}`
+    } else{
+      arrayNumberWrong.push(arrayNumberInsert[i]);
+      message = `i numeri errati sono ${arrayNumberWrong}`
     }
   }
+  console.log(message)
+  
+  comment.innerText = message
+  comment.classList.remove('hide')
 }
+
+/* stampiamo nella pagina */
+
+
+
 
 
 
